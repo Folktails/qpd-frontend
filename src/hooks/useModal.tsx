@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
@@ -196,7 +196,7 @@ export const useModal = (modalKey: string) => {
 			type = 'modal',
 			snackbarDelay = 2000,
 		} = props;
-		// snackbar 일경우 자동으로 닫히게
+
 		useEffect(() => {
 			if (type !== 'snackBar') return;
 			const timer = setTimeout(() => {
@@ -230,7 +230,8 @@ export const useModal = (modalKey: string) => {
 					{...stylex.props(
 						styles.modalWrap(isOpen, animationType),
 						modalPosition[type],
-					)}>
+					)}
+				>
 					{children}
 				</div>
 			</Portal>

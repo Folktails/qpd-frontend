@@ -6,13 +6,21 @@ import { colors, flex, typo } from '~/style/common.stylex';
 import { Icon } from '~/images';
 import { useQuestionTimer } from '~/features/question/hooks/useQuestionTimer';
 import { Button } from '~/components/ui/button/button';
+import { todayQuestionOptions } from '~/features/question/hooks/today/todayQuestionOptions';
+import { useQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/question/')({
 	component: RouteComponent,
+	loader: ({ context: { queryClient } }) =>
+		queryClient.ensureQueryData(todayQuestionOptions),
 });
 
 function RouteComponent() {
 	const { formattedTime } = useQuestionTimer();
+	const { data } = useQuery(todayQuestionOptions);
+
+	console.log(data, 'data');
+
 	const { seconds, hours, minutes } = formattedTime;
 
 	return (

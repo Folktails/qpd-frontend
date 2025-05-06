@@ -1,14 +1,17 @@
 import {
 	Outlet,
 	ScrollRestoration,
-	createRootRoute,
+	createRootRouteWithContext,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { Fragment } from 'react';
 import { RootLayout } from '~/components/layout/RootLayout';
 import { enableMapSet } from 'immer';
+import { QueryClient } from '@tanstack/react-query';
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+	queryClient: QueryClient;
+}>()({
 	component: RootComponent,
 });
 

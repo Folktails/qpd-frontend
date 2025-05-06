@@ -11,6 +11,7 @@ import WarnSvg from './icon/warn.svg?react';
 import DownloadSvg from './icon/export.svg?react';
 import ArrowLeftSvg from './icon/arrow-left.svg?react';
 import ArrowRightSvg from './icon/arrow-right.svg?react';
+import UserSvg from './icon/user.svg?react';
 
 interface Props {
 	width: string;
@@ -37,6 +38,7 @@ export const Icon = {
 	Mail: (props: Pick<Props, 'size' | 'color'>) => <Mail {...props} />,
 	Warn: (props: Pick<Props, 'size' | 'color'>) => <Warn {...props} />,
 	Download: (props: Pick<Props, 'size' | 'color'>) => <Download {...props} />,
+	User: (props: Pick<Props, 'size' | 'color'>) => <User {...props} />,
 };
 
 const ArrowLeft = (props: Partial<Props>) => {
@@ -110,4 +112,9 @@ const Warn = (props: Pick<Props, 'size' | 'color'>) => {
 const Download = (props: Pick<Props, 'size' | 'color'>) => {
 	const { size, color } = props;
 	return <DownloadSvg width={size} height={size} fill={color} />;
+};
+
+const User = (props: Pick<Props, 'size' | 'color'>) => {
+	const { size, color } = props;
+	return <UserSvg width={size} height={size} fill={color} />;
 };

@@ -18,10 +18,10 @@ export const Calendar = ({ renderCell, ...props }: Props) => {
 	return (
 		<section {...stylex.props(styles.container)}>
 			<header {...stylex.props(styles.weakHeader, flex.between, flex.vertical)}>
-				<h2
+				<h5
 					{...stylex.props(styles.black90, typo['Body/Body1_16∙100_SemiBold'])}>
 					{format(currentSelectedDate, 'yyyy년 MM월', { locale: ko })}
-				</h2>
+				</h5>
 
 				<div {...stylex.props(styles.arrowWrap, flex.vertical)}>
 					<button onClick={() => onClickMonth(-1)}>
@@ -34,7 +34,6 @@ export const Calendar = ({ renderCell, ...props }: Props) => {
 				</div>
 			</header>
 
-			{/* 요일 헤더 */}
 			<div {...stylex.props(styles.weekDays)}>
 				{weekDays.map((day, index) => {
 					const isLeftSide = index % 7 === 0;
@@ -91,6 +90,7 @@ const styles = stylex.create({
 		marginBottom: '16px',
 	},
 	weekDays: {
+		width: '100%',
 		display: 'grid',
 		gridTemplateColumns: 'repeat(7, 1fr)',
 		textAlign: 'center',
@@ -100,7 +100,6 @@ const styles = stylex.create({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		padding: '8px',
 	},
 	grid: {
 		display: 'grid',
@@ -111,10 +110,10 @@ const styles = stylex.create({
 		color: colors.gray80,
 	},
 	dayCell: {
+		width: '100%',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		padding: '8px',
 		cursor: 'pointer',
 		borderRadius: '4px',
 	},

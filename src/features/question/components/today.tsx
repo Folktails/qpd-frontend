@@ -7,13 +7,15 @@ interface Props {
 
 export const TodayQuestion = (props: Props) => {
 	const { text } = props;
+
 	return (
 		<section {...stylex.props(styles.wrap, flex.column)}>
 			<span
 				{...stylex.props(
 					styles.mark,
 					typo['Body/lines/Body1_16∙150_SemiBold_lines'],
-				)}>
+				)}
+			>
 				Q.
 			</span>
 
@@ -21,7 +23,8 @@ export const TodayQuestion = (props: Props) => {
 				{...stylex.props(
 					styles.title,
 					typo['Heading/lines/H1_28∙130_SemiBold_lines'],
-				)}>
+				)}
+			>
 				{'세상에서 감정 하나를' + '\n' + '없앨 수 있다면?'}
 			</h2>
 
@@ -29,7 +32,8 @@ export const TodayQuestion = (props: Props) => {
 				{...stylex.props(
 					styles.text,
 					typo['Body/lines/Body3_14∙150_Regular_lines'],
-				)}>
+				)}
+			>
 				{text}
 			</p>
 		</section>

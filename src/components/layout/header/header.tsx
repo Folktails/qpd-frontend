@@ -1,23 +1,38 @@
 import * as styleX from '@stylexjs/stylex';
-import { useLocation } from '@tanstack/react-router';
+import { useLocation, useNavigate } from '@tanstack/react-router';
+import { Fragment } from 'react/jsx-runtime';
 import { Icon, Image } from '~/images';
 import { colors, flex } from '~/style/common.stylex';
 
 export const Header = () => {
+	const navigate = useNavigate();
+
 	const pathname = useLocation({
 		select: location => location.pathname,
 	});
 
 	const isQuestionPath = pathname.includes('question');
 
+	const onClickRoute = () => navigate({ to: '/' });
+
+	// const onClickUser = () => Boolean(userQuery) ? navigate({to : })
+
 	return (
 		<header {...styleX.props(styles.wrap, flex.between, flex.vertical)}>
-			<Image.Logo width='74px' height='23px' />
+			<button onClick={onClickRoute}>
+				<Image.Logo width='74px' height='23px' />
+			</button>
 
 			<div {...styleX.props(styles.buttonGroup, flex.vertical)}>
 				<Icon.Moon size='24' color={colors.gray70} />
-				{isQuestionPath && <Icon.Share size='24' color={colors.gray70} />}
-				<Icon.Home size='24' color={colors.gray70} />
+				{isQuestionPath && (
+					<Fragment>
+						<Icon.Share size='24' color={colors.gray70} />
+						<Icon.Home size='24' color={colors.gray70} />
+					</Fragment>
+				)}
+
+				{!isQuestionPath && <Icon.User size='24' color={colors.gray70} />}
 			</div>
 		</header>
 	);

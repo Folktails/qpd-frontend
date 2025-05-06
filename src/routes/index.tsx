@@ -20,7 +20,6 @@ export const Route = createFileRoute('/')({
 
 function RouteComponent() {
 	const search = useSearch({ from: '/' });
-
 	const calendar = useCalendar<SearchSchema>(search);
 
 	const renderCell = ({ date }: { date: Date }) => {
@@ -42,7 +41,7 @@ function RouteComponent() {
 					{date.getDate()}
 				</div>
 
-				{isToday && <div {...stylex.props(styles.dot)} />}
+				{!isToday && <div {...stylex.props(styles.dot)} />}
 			</div>
 		);
 	};
