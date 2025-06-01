@@ -3,13 +3,13 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { produce } from 'immer';
 import { ChangeEventHandler, useState } from 'react';
 import { z } from 'zod';
-import { LoginBottomSheet } from '~/components/ui/bottom-sheet/login/login-bottom-sheet';
-import { Button } from '~/components/ui/button/button';
-import { WarnSnackbar } from '~/components/ui/snackbar/warn';
-import { AnswerNicknameStep } from '~/features/answer/components/write/step/nickname-step';
-import { AnswerWriteStep } from '~/features/answer/components/write/step/write-step';
+import { LoginBottomSheet } from '~/shared/components/ui/bottom-sheet/login/login-bottom-sheet';
+import { Button } from '~/shared/components/ui/button/button';
+import { WarnSnackbar } from '~/shared/components/ui/snackbar/warn';
+import { AnswerNicknameStep } from '~/domain/answer/components/write/step/nickname-step';
+import { AnswerWriteStep } from '~/domain/answer/components/write/step/write-step';
 
-import useModal from '~/hooks/useModal';
+import useModal from '~/shared/hooks/useModal';
 
 const Search = z.object({
 	step: z.number(),

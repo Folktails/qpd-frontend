@@ -3,9 +3,9 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import '~/style/reset.css';
-import './style/stylex.css';
-import { SessionCheck } from './features/user/components/auth/Session';
+import '~/shared/style/reset.css';
+import '~/shared/style/stylex.css';
+import { SessionCheck } from './domain/user/components/auth/Session';
 
 const queryClient = new QueryClient();
 

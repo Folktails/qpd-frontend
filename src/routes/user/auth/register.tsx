@@ -2,8 +2,8 @@ import * as stylex from '@stylexjs/stylex';
 import { createFileRoute } from '@tanstack/react-router';
 import { produce } from 'immer';
 import { ChangeEventHandler, useState } from 'react';
-import { useRegister } from '~/features/user/hooks/mutation/useRegister';
-import { colors, flex } from '~/style/common.stylex';
+import { useRegister } from '~/domain/user/hooks/mutation/useRegister';
+import { colors, flex } from '~/shared/style/common.stylex';
 
 export const Route = createFileRoute('/user/auth/register')({
 	component: RouteComponent,

@@ -1,10 +1,10 @@
 import { createFileRoute, useSearch } from '@tanstack/react-router';
 import * as stylex from '@stylexjs/stylex';
-import { colors, flex, typo } from '~/style/common.stylex';
+import { colors, flex, typo } from '~/shared/style/common.stylex';
 import { zodValidator } from '@tanstack/zod-adapter';
 import { z } from 'zod';
-import { useCalendar } from '~/hooks/useCalendar';
-import { Calendar } from '~/features/home/calendar/calendar';
+import { useCalendar } from '~/shared/hooks/useCalendar';
+import { Calendar } from '~/domain/home/calendar/calendar';
 import { isSameDay } from 'date-fns';
 
 const searchSchema = z.object({

@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import * as stylex from '@stylexjs/stylex';
-import { TodayQuestion } from '~/features/question/components/today';
-import { QuestionBlurLayout } from '~/components/layout/question/question-blur-layout';
-import { colors, flex, typo } from '~/style/common.stylex';
-import { Icon } from '~/images';
-import { useQuestionTimer } from '~/features/question/hooks/useQuestionTimer';
-import { Button } from '~/components/ui/button/button';
-import { todayQuestionOptions } from '~/features/question/hooks/today/todayQuestionOptions';
+import { TodayQuestion } from '~/domain/question/components/today';
+import { QuestionBlurLayout } from '~/shared/components/layout/question/question-blur-layout';
+import { colors, flex, typo } from '~/shared/style/common.stylex';
+import { Icon } from '~/shared/images';
+import { useQuestionTimer } from '~/domain/question/hooks/useQuestionTimer';
+import { Button } from '~/shared/components/ui/button/button';
+import { todayQuestionOptions } from '~/domain/question/hooks/today/todayQuestionOptions';
 import { useQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/question/')({

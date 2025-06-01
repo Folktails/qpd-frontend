@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { Fragment } from 'react';
-import { RootLayout } from '~/components/layout/RootLayout';
+import { RootLayout } from '~/shared/components/layout/RootLayout';
 import { enableMapSet } from 'immer';
 import { QueryClient } from '@tanstack/react-query';
 

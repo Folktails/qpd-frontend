@@ -1,10 +1,10 @@
 import * as stylex from '@stylexjs/stylex';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useRef } from 'react';
-import { Button } from '~/components/ui/button/button';
-import { HorizontalDrag } from '~/components/ui/drag/horizontal-drag';
-import { Icon } from '~/images';
-import { colors, flex, typo } from '~/style/common.stylex';
+import { Button } from '~/shared/components/ui/button/button';
+import { HorizontalDrag } from '~/shared/components/ui/drag/horizontal-drag';
+import { Icon } from '~/shared/images';
+import { colors, flex, typo } from '~/shared/style/common.stylex';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import { format } from 'date-fns';
