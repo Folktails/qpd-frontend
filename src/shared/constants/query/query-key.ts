@@ -6,5 +6,6 @@ export const QUERY_KEYS = {
 	},
 	question: {
 		today: ['question/today'],
+		todayInfo: ['question/todayInfo'],
 	},
 };

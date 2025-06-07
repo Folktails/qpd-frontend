@@ -2,11 +2,12 @@ import * as stylex from '@stylexjs/stylex';
 import { flex, colors, typo } from '~/shared/style/common.stylex';
 
 interface Props {
-	text: string;
+	title: string;
+	subText: string;
 }
 
-export const TodayQuestion = (props: Props) => {
-	const { text } = props;
+export const TodayQuestion = ({ title = '', subText = '' }: Props) => {
+	console.log(title, subText);
 
 	return (
 		<section {...stylex.props(styles.wrap, flex.column)}>
@@ -23,7 +24,7 @@ export const TodayQuestion = (props: Props) => {
 					styles.title,
 					typo['Heading/lines/H1_28∙130_SemiBold_lines'],
 				)}>
-				{'세상에서 감정 하나를' + '\n' + '없앨 수 있다면?'}
+				{title}
 			</h2>
 
 			<p
@@ -31,7 +32,7 @@ export const TodayQuestion = (props: Props) => {
 					styles.text,
 					typo['Body/lines/Body3_14∙150_Regular_lines'],
 				)}>
-				{text}
+				{subText}
 			</p>
 		</section>
 	);

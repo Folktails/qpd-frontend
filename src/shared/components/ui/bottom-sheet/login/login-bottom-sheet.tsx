@@ -2,8 +2,10 @@ import * as stylex from '@stylexjs/stylex';
 import { Icon } from '~/shared/images';
 import { colors, flex, typo } from '~/shared/style/common.stylex';
 import { Button } from '../../button/button';
+import { useKaKao } from '~/shared/hooks/useKaKao';
 
 export const LoginBottomSheet = () => {
+	const { kakaoLogin } = useKaKao();
 	return (
 		<section {...stylex.props(styles.wrap, flex.column)}>
 			<div {...stylex.props(styles.top, flex.column)}>
@@ -19,15 +21,11 @@ export const LoginBottomSheet = () => {
 			</div>
 
 			<div {...stylex.props(styles.bottom, flex.column)}>
-				<Button style={[styles.kakao, flex.between, flex.vertical]}>
+				<Button
+					style={[styles.kakao, flex.between, flex.vertical]}
+					onClick={kakaoLogin}>
 					<Icon.Talk size='20' color={colors.gray90} />
 					카카오로 간편 로그인
-					<div {...stylex.props(styles.shadow)} />
-				</Button>
-
-				<Button style={[styles.email, flex.between, flex.vertical]}>
-					<Icon.Mail size='20' color={colors.gray90} />
-					이메일로 로그인
 					<div {...stylex.props(styles.shadow)} />
 				</Button>
 			</div>
@@ -39,7 +37,6 @@ const styles = stylex.create({
 	wrap: {
 		width: '100%',
 		maxWidth: 600,
-		height: 310,
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
 		backgroundColor: '#fff',

@@ -6,20 +6,22 @@ import { colors, flex, typo } from '~/shared/style/common.stylex';
 import { Icon } from '~/shared/images';
 import { useQuestionTimer } from '~/domain/question/hooks/useQuestionTimer';
 import { Button } from '~/shared/components/ui/button/button';
-import { todayQuestionOptions } from '~/domain/question/hooks/today/todayQuestionOptions';
 import { useQuery } from '@tanstack/react-query';
+import { todayQuestionInfoOptions } from '~/domain/question/hooks/today/todayQuestionOptions';
+import { useTodayQuestion } from '~/domain/question/hooks/useTodayQuestion';
 
 export const Route = createFileRoute('/question/')({
 	component: RouteComponent,
 	loader: ({ context: { queryClient } }) =>
-		queryClient.ensureQueryData(todayQuestionOptions),
+		queryClient.ensureQueryData(todayQuestionInfoOptions),
 });
 
 function RouteComponent() {
 	const { formattedTime } = useQuestionTimer();
-	const { data } = useQuery(todayQuestionOptions);
-
-	console.log(data, 'data');
+	const { data: todayQuestionInfo } = useQuery(todayQuestionInfoOptions);
+	const { data: questionData } = useTodayQuestion(
+		todayQuestionInfo?.questionId,
+	);
 
 	const { seconds, hours, minutes } = formattedTime;
 
@@ -27,7 +29,10 @@ function RouteComponent() {
 		<QuestionBlurLayout>
 			<section {...stylex.props(styles.content)}>
 				<div {...stylex.props(styles.shadow)} />
-				<TodayQuestion text={text} />
+				<TodayQuestion
+					title={questionData?.question?.title ?? ''}
+					subText={questionData?.question?.subText ?? ''}
+				/>
 
 				<div {...stylex.props(styles.bottom, flex.column)}>
 					<div {...stylex.props(styles.banner, flex.column)}>
@@ -61,9 +66,6 @@ function RouteComponent() {
 		</QuestionBlurLayout>
 	);
 }
-
-const text =
-	'꿈의 힘을 믿고, 사고 파는 사람들도 있어요. 여러분의 꿈도 현실에 영향을 준 적이 있나요?';
 
 const styles = stylex.create({
 	shadow: {

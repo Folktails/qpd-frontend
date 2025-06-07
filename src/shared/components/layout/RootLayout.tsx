@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { PropsWithChildren } from 'react';
-import { flex } from '~/shared/style/common.stylex';
+import { colors, flex } from '~/shared/style/common.stylex';
 import { Header } from './header/header';
 
 export const RootLayout = ({ children }: PropsWithChildren) => {
@@ -17,10 +17,11 @@ export const RootLayout = ({ children }: PropsWithChildren) => {
 
 const styles = stylex.create({
 	wrap: {
-		// width: '100vw',
 		height: '100svh',
+		backgroundColor: colors.gray20,
 	},
 	inner: {
+		backgroundColor: '#fff',
 		display: 'flex',
 		flexDirection: 'column',
 		width: '100%',

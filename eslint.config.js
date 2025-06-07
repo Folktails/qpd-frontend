@@ -21,6 +21,7 @@ export default [
             "no-undef": "error",
             "react/react-in-jsx-scope" : "off",
             "react/no-unescaped-entities" : "off",
+            "no-extra-boolean-cast": "off",
         }
     }
 ];

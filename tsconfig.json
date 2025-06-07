@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "strict": true,
+    "strict": false,
+    "strictNullChecks": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "target": "ESNext",
@@ -11,6 +12,10 @@
     "paths": {
       "~/*": ["src/*"] // '~'를 'src'로 매핑
     },
-    "types": ["vite/client" , "node"]
+    "types": ["vite/client" , "node"] , 
   },
+   "include": [
+    "src/**/*",
+    "global.d.ts"  // 여기서 타입 정의 파일을 포함
+  ]
 }

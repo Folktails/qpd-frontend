@@ -10,6 +10,9 @@ import { AnswerNicknameStep } from '~/domain/answer/components/write/step/nickna
 import { AnswerWriteStep } from '~/domain/answer/components/write/step/write-step';
 
 import useModal from '~/shared/hooks/useModal';
+import { todayQuestionInfoOptions } from '~/domain/question/hooks/today/todayQuestionOptions';
+import { useQuery } from '@tanstack/react-query';
+import { useTodayQuestion } from '~/domain/question/hooks/useTodayQuestion';
 
 const Search = z.object({
 	step: z.number(),
@@ -18,28 +21,34 @@ const Search = z.object({
 export const Route = createFileRoute('/question/write')({
 	component: RouteComponent,
 	validateSearch: search => Search.parse(search),
+	loader: ({ context: { queryClient } }) =>
+		queryClient.ensureQueryData(todayQuestionInfoOptions),
 });
 
 function RouteComponent() {
 	const LoginPortal = useModal('login-portal');
 	const WarningSnackbar = useModal('answer-warning');
 	const { step } = Route.useSearch() as { step: 1 | 2 };
+	const { data: todayQuestionInfo } = useQuery(todayQuestionInfoOptions);
+	const { data: questionData } = useTodayQuestion(
+		todayQuestionInfo?.questionId,
+	);
 	const navigate = useNavigate({ from: '/question/write' });
 
 	const [form, setForm] = useState({
-		answer: '',
+		text: '',
 		nickname: '',
-		isWatchAlone: false,
+		isShared: false,
 	});
 
 	const onChangeTextarea: ChangeEventHandler<HTMLTextAreaElement> = e =>
 		setForm(
 			produce(draft => {
-				draft.answer = e.target.value;
+				draft.text = e.target.value;
 			}),
 		);
 
-	const isLogin = true;
+	const isLogin = false;
 
 	const onClickWatchAlone = () => {
 		if (!isLogin) {
@@ -49,7 +58,7 @@ function RouteComponent() {
 
 		setForm(
 			produce(draft => {
-				draft.isWatchAlone = !draft.isWatchAlone;
+				draft.isShared = !draft.isShared;
 			}),
 		);
 	};
@@ -63,7 +72,7 @@ function RouteComponent() {
 
 	const handleStep1 = () => {
 		if (!isLogin) return;
-		if (form.answer.length >= 200) {
+		if (form.text.length >= 200) {
 			WarningSnackbar.open();
 			return;
 		}
@@ -102,8 +111,9 @@ function RouteComponent() {
 				<AnswerWriteStep
 					onClickWatchAlone={onClickWatchAlone}
 					onChangeTextArea={onChangeTextarea}
-					answer={form.answer}
-					isWatchAlone={form.isWatchAlone}
+					question={questionData?.question}
+					answer={form.text}
+					isWatchAlone={form.isShared}
 				/>
 			)}
 
@@ -117,7 +127,7 @@ function RouteComponent() {
 			<div {...stylex.props(styles.buttonWrap)}>
 				<Button
 					variants='primary'
-					disabled={!form.answer || !form.nickname}
+					disabled={!form.text}
 					onClick={onClickConfirm}>
 					{titleMap[step]}
 				</Button>
@@ -146,6 +156,7 @@ const styles = stylex.create({
 		width: '100%',
 		height: '100%',
 		flex: 1,
+		maxWidth: 600,
 	},
 	buttonWrap: {
 		marginTop: '45px',

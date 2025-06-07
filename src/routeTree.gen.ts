@@ -16,6 +16,7 @@ import { Route as UserIndexImport } from './routes/user/index'
 import { Route as QuestionIndexImport } from './routes/question/index'
 import { Route as QuestionWriteImport } from './routes/question/write'
 import { Route as QuestionConfirmImport } from './routes/question/confirm'
+import { Route as UserKakaoRegisterImport } from './routes/user/kakao/register'
 import { Route as UserAuthRegisterImport } from './routes/user/auth/register'
 import { Route as UserAuthLoginImport } from './routes/user/auth/login'
 
@@ -48,6 +49,12 @@ const QuestionWriteRoute = QuestionWriteImport.update({
 const QuestionConfirmRoute = QuestionConfirmImport.update({
   id: '/question/confirm',
   path: '/question/confirm',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UserKakaoRegisterRoute = UserKakaoRegisterImport.update({
+  id: '/user/kakao/register',
+  path: '/user/kakao/register',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -116,6 +123,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserAuthRegisterImport
       parentRoute: typeof rootRoute
     }
+    '/user/kakao/register': {
+      id: '/user/kakao/register'
+      path: '/user/kakao/register'
+      fullPath: '/user/kakao/register'
+      preLoaderRoute: typeof UserKakaoRegisterImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -129,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/user': typeof UserIndexRoute
   '/user/auth/login': typeof UserAuthLoginRoute
   '/user/auth/register': typeof UserAuthRegisterRoute
+  '/user/kakao/register': typeof UserKakaoRegisterRoute
 }
 
 export interface FileRoutesByTo {
@@ -139,6 +154,7 @@ export interface FileRoutesByTo {
   '/user': typeof UserIndexRoute
   '/user/auth/login': typeof UserAuthLoginRoute
   '/user/auth/register': typeof UserAuthRegisterRoute
+  '/user/kakao/register': typeof UserKakaoRegisterRoute
 }
 
 export interface FileRoutesById {
@@ -150,6 +166,7 @@ export interface FileRoutesById {
   '/user/': typeof UserIndexRoute
   '/user/auth/login': typeof UserAuthLoginRoute
   '/user/auth/register': typeof UserAuthRegisterRoute
+  '/user/kakao/register': typeof UserKakaoRegisterRoute
 }
 
 export interface FileRouteTypes {
@@ -162,6 +179,7 @@ export interface FileRouteTypes {
     | '/user'
     | '/user/auth/login'
     | '/user/auth/register'
+    | '/user/kakao/register'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -171,6 +189,7 @@ export interface FileRouteTypes {
     | '/user'
     | '/user/auth/login'
     | '/user/auth/register'
+    | '/user/kakao/register'
   id:
     | '__root__'
     | '/'
@@ -180,6 +199,7 @@ export interface FileRouteTypes {
     | '/user/'
     | '/user/auth/login'
     | '/user/auth/register'
+    | '/user/kakao/register'
   fileRoutesById: FileRoutesById
 }
 
@@ -191,6 +211,7 @@ export interface RootRouteChildren {
   UserIndexRoute: typeof UserIndexRoute
   UserAuthLoginRoute: typeof UserAuthLoginRoute
   UserAuthRegisterRoute: typeof UserAuthRegisterRoute
+  UserKakaoRegisterRoute: typeof UserKakaoRegisterRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -201,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   UserIndexRoute: UserIndexRoute,
   UserAuthLoginRoute: UserAuthLoginRoute,
   UserAuthRegisterRoute: UserAuthRegisterRoute,
+  UserKakaoRegisterRoute: UserKakaoRegisterRoute,
 }
 
 export const routeTree = rootRoute
@@ -219,7 +241,8 @@ export const routeTree = rootRoute
         "/question/",
         "/user/",
         "/user/auth/login",
-        "/user/auth/register"
+        "/user/auth/register",
+        "/user/kakao/register"
       ]
     },
     "/": {
@@ -242,6 +265,9 @@ export const routeTree = rootRoute
     },
     "/user/auth/register": {
       "filePath": "user/auth/register.tsx"
+    },
+    "/user/kakao/register": {
+      "filePath": "user/kakao/register.tsx"
     }
   }
 }

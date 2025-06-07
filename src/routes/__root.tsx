@@ -8,6 +8,7 @@ import { Fragment } from 'react';
 import { RootLayout } from '~/shared/components/layout/RootLayout';
 import { enableMapSet } from 'immer';
 import { QueryClient } from '@tanstack/react-query';
+import { config } from '~/config';
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;
@@ -18,6 +19,8 @@ export const Route = createRootRouteWithContext<{
 enableMapSet();
 
 function RootComponent() {
+	window.Kakao?.init(config.kakao);
+
 	return (
 		<Fragment>
 			<RootLayout>

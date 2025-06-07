@@ -3,17 +3,23 @@ import { ChangeEventHandler, Fragment } from 'react';
 import { CheckBox } from '~/shared/components/ui/checkbox/checkbox';
 import { flex, typo, colors } from '~/shared/style/common.stylex';
 import { AnswerTimer } from '../../timer/answer-timer';
+import { QuestionSchema } from '~/domain/question/schema';
 
 interface Props {
 	answer: string;
 	isWatchAlone: boolean;
 	onChangeTextArea: ChangeEventHandler<HTMLTextAreaElement>;
 	onClickWatchAlone: () => void;
+	question: QuestionSchema | undefined;
 }
 
-export const AnswerWriteStep = (props: Props) => {
-	const { onChangeTextArea, onClickWatchAlone, answer, isWatchAlone } = props;
-
+export const AnswerWriteStep = ({
+	answer,
+	isWatchAlone,
+	question,
+	onChangeTextArea,
+	onClickWatchAlone,
+}: Props) => {
 	const isAnswerMax = answer.length >= 200;
 
 	return (
@@ -36,7 +42,7 @@ export const AnswerWriteStep = (props: Props) => {
 						styles.question,
 						typo['Heading/lines/H1_28∙130_SemiBold_lines'],
 					)}>
-					세상에서 감정 하나를 없앨 수 있다면?
+					{question?.title}
 				</h2>
 			</section>
 
@@ -102,6 +108,7 @@ const opacity = stylex.keyframes({
 
 const styles = stylex.create({
 	wrap: {
+		backgroundColor: '#fff',
 		display: 'flex',
 		padding: '24px 18px',
 		flexDirection: 'column',
@@ -117,11 +124,10 @@ const styles = stylex.create({
 	},
 	question: {
 		color: colors.gray90,
-		whiteSpace: 'pre-line',
-		width: '60%',
 	},
 	titleWrap: {
 		width: '100%',
+		backgroundColor: colors.white,
 		animationName: opacity,
 		animationDuration: '1.1s',
 		animationTimingFunction: 'ease-in-out',
@@ -135,6 +141,7 @@ const styles = stylex.create({
 		borderRadius: '4px',
 	},
 	textCountWrap: {
+		color: colors.white,
 		padding: '20px 8px',
 	},
 	grayText: {
