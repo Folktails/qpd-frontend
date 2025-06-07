@@ -3,9 +3,18 @@ import { Icon } from '~/shared/images';
 import { colors, flex, typo } from '~/shared/style/common.stylex';
 import { Button } from '../../button/button';
 import { useKaKao } from '~/shared/hooks/useKaKao';
+import { saveNavigationState } from '~/shared/hooks/useNavigationRestore';
+import { useLocation } from '@tanstack/react-router';
 
 export const LoginBottomSheet = () => {
 	const { kakaoLogin } = useKaKao();
+	const location = useLocation();
+
+	const onClickKakaoLogin = () => {
+		saveNavigationState(location);
+		kakaoLogin();
+	};
+
 	return (
 		<section {...stylex.props(styles.wrap, flex.column)}>
 			<div {...stylex.props(styles.top, flex.column)}>
@@ -23,7 +32,7 @@ export const LoginBottomSheet = () => {
 			<div {...stylex.props(styles.bottom, flex.column)}>
 				<Button
 					style={[styles.kakao, flex.between, flex.vertical]}
-					onClick={kakaoLogin}>
+					onClick={onClickKakaoLogin}>
 					<Icon.Talk size='20' color={colors.gray90} />
 					카카오로 간편 로그인
 					<div {...stylex.props(styles.shadow)} />

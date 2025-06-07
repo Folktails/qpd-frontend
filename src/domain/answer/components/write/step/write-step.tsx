@@ -7,7 +7,7 @@ import { QuestionSchema } from '~/domain/question/schema';
 
 interface Props {
 	answer: string;
-	isWatchAlone: boolean;
+	isShared: boolean;
 	onChangeTextArea: ChangeEventHandler<HTMLTextAreaElement>;
 	onClickWatchAlone: () => void;
 	question: QuestionSchema | undefined;
@@ -15,7 +15,7 @@ interface Props {
 
 export const AnswerWriteStep = ({
 	answer,
-	isWatchAlone,
+	isShared,
 	question,
 	onChangeTextArea,
 	onClickWatchAlone,
@@ -70,7 +70,7 @@ export const AnswerWriteStep = ({
 			<div
 				{...stylex.props(styles.watchAlone, flex.start)}
 				onClick={onClickWatchAlone}>
-				<CheckBox isChecked={isWatchAlone} />
+				<CheckBox isChecked={!isShared} />
 
 				<div {...stylex.props(flex.column, styles.gap8)}>
 					<p

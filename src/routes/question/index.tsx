@@ -83,7 +83,6 @@ const styles = stylex.create({
 		height: 70,
 		borderRadius: 14,
 		border: `1px solid ${colors.main}`,
-		backgroundColor: '#fff',
 		zIndex: 1,
 		padding: 12,
 		gap: 12,

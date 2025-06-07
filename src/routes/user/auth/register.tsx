@@ -1,8 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { produce } from 'immer';
 import { ChangeEventHandler, useState } from 'react';
 import { useRegister } from '~/domain/user/hooks/mutation/useRegister';
+import { useUserStore } from '~/domain/user/store';
 import { colors, flex } from '~/shared/style/common.stylex';
 
 export const Route = createFileRoute('/user/auth/register')({
@@ -10,12 +11,13 @@ export const Route = createFileRoute('/user/auth/register')({
 });
 
 function RouteComponent() {
-	const { mutate } = useRegister();
+	const navigate = useNavigate();
+	const { mutateAsync } = useRegister();
+
 	const [input, setInput] = useState({
-		email: '',
 		password: '',
-		nickname: '',
 	});
+	const { user } = useUserStore();
 
 	const onChangeInput: ChangeEventHandler<HTMLInputElement> = e =>
 		setInput(
@@ -24,18 +26,28 @@ function RouteComponent() {
 			}),
 		);
 
+	const onClickRegister = async () => {
+		await mutateAsync({
+			email: user.email as string,
+			password: input.password,
+			nickname:
+				'abcbasb' + Math.random().toString(36).substring(2, 15).slice(0, 10),
+			// nickname: user.name,
+		});
+
+		navigate({ to: '/user/auth/login' });
+	};
+
 	return (
 		<section {...stylex.props(styles.base, flex.column)}>
-			<input name='email' onChange={onChangeInput} value={input.email} />
 			<input
 				name='password'
 				onChange={onChangeInput}
 				value={input.password}
 				type='password'
 			/>
-			<input name='nickname' onChange={onChangeInput} value={input.nickname} />
 
-			<button onClick={() => mutate(input)}>회원가입</button>
+			<button onClick={onClickRegister}>회원가입</button>
 		</section>
 	);
 }

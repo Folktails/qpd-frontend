@@ -9,6 +9,7 @@ import { RootLayout } from '~/shared/components/layout/RootLayout';
 import { enableMapSet } from 'immer';
 import { QueryClient } from '@tanstack/react-query';
 import { config } from '~/config';
+import { SessionCheck } from '~/domain/user/components/auth/Session';
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;
@@ -24,6 +25,7 @@ function RootComponent() {
 	return (
 		<Fragment>
 			<RootLayout>
+				<SessionCheck />
 				<Outlet />
 			</RootLayout>
 			<TanStackRouterDevtools position='bottom-right' />

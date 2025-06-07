@@ -13,6 +13,8 @@ import useModal from '~/shared/hooks/useModal';
 import { todayQuestionInfoOptions } from '~/domain/question/hooks/today/todayQuestionOptions';
 import { useQuery } from '@tanstack/react-query';
 import { useTodayQuestion } from '~/domain/question/hooks/useTodayQuestion';
+import { useUserStore } from '~/domain/user/store';
+import { useAddAnswer } from '~/domain/answer/hooks/useAddAnswer';
 
 const Search = z.object({
 	step: z.number(),
@@ -28,17 +30,20 @@ export const Route = createFileRoute('/question/write')({
 function RouteComponent() {
 	const LoginPortal = useModal('login-portal');
 	const WarningSnackbar = useModal('answer-warning');
+	const { isLogin } = useUserStore();
 	const { step } = Route.useSearch() as { step: 1 | 2 };
 	const { data: todayQuestionInfo } = useQuery(todayQuestionInfoOptions);
 	const { data: questionData } = useTodayQuestion(
 		todayQuestionInfo?.questionId,
 	);
+	const { mutateAsync: addAnswer } = useAddAnswer();
+
 	const navigate = useNavigate({ from: '/question/write' });
 
 	const [form, setForm] = useState({
 		text: '',
 		nickname: '',
-		isShared: false,
+		isShared: true,
 	});
 
 	const onChangeTextarea: ChangeEventHandler<HTMLTextAreaElement> = e =>
@@ -47,8 +52,6 @@ function RouteComponent() {
 				draft.text = e.target.value;
 			}),
 		);
-
-	const isLogin = false;
 
 	const onClickWatchAlone = () => {
 		if (!isLogin) {
@@ -82,8 +85,17 @@ function RouteComponent() {
 		});
 	};
 
-	const handleStep2 = () => {
-		if (!form.nickname) return;
+	const handleStep2 = async () => {
+		if (!form.text) return;
+
+		await addAnswer({
+			questionId: questionData?.question.id ?? 0,
+			answer: {
+				text: form.text,
+				nickname: form.nickname,
+				isShared: form.isShared,
+			},
+		});
 
 		navigate({
 			to: '/question/confirm',
@@ -113,7 +125,7 @@ function RouteComponent() {
 					onChangeTextArea={onChangeTextarea}
 					question={questionData?.question}
 					answer={form.text}
-					isWatchAlone={form.isShared}
+					isShared={form.isShared}
 				/>
 			)}
 

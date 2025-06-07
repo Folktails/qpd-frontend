@@ -16,9 +16,10 @@ import { Route as UserIndexImport } from './routes/user/index'
 import { Route as QuestionIndexImport } from './routes/question/index'
 import { Route as QuestionWriteImport } from './routes/question/write'
 import { Route as QuestionConfirmImport } from './routes/question/confirm'
-import { Route as UserKakaoRegisterImport } from './routes/user/kakao/register'
 import { Route as UserAuthRegisterImport } from './routes/user/auth/register'
 import { Route as UserAuthLoginImport } from './routes/user/auth/login'
+import { Route as UserKakaoBridgeRegisterImport } from './routes/user/kakao/bridge/register'
+import { Route as UserKakaoBridgeLoginImport } from './routes/user/kakao/bridge/login'
 
 // Create/Update Routes
 
@@ -52,12 +53,6 @@ const QuestionConfirmRoute = QuestionConfirmImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const UserKakaoRegisterRoute = UserKakaoRegisterImport.update({
-  id: '/user/kakao/register',
-  path: '/user/kakao/register',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const UserAuthRegisterRoute = UserAuthRegisterImport.update({
   id: '/user/auth/register',
   path: '/user/auth/register',
@@ -67,6 +62,18 @@ const UserAuthRegisterRoute = UserAuthRegisterImport.update({
 const UserAuthLoginRoute = UserAuthLoginImport.update({
   id: '/user/auth/login',
   path: '/user/auth/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UserKakaoBridgeRegisterRoute = UserKakaoBridgeRegisterImport.update({
+  id: '/user/kakao/bridge/register',
+  path: '/user/kakao/bridge/register',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UserKakaoBridgeLoginRoute = UserKakaoBridgeLoginImport.update({
+  id: '/user/kakao/bridge/login',
+  path: '/user/kakao/bridge/login',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -123,11 +130,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserAuthRegisterImport
       parentRoute: typeof rootRoute
     }
-    '/user/kakao/register': {
-      id: '/user/kakao/register'
-      path: '/user/kakao/register'
-      fullPath: '/user/kakao/register'
-      preLoaderRoute: typeof UserKakaoRegisterImport
+    '/user/kakao/bridge/login': {
+      id: '/user/kakao/bridge/login'
+      path: '/user/kakao/bridge/login'
+      fullPath: '/user/kakao/bridge/login'
+      preLoaderRoute: typeof UserKakaoBridgeLoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/user/kakao/bridge/register': {
+      id: '/user/kakao/bridge/register'
+      path: '/user/kakao/bridge/register'
+      fullPath: '/user/kakao/bridge/register'
+      preLoaderRoute: typeof UserKakaoBridgeRegisterImport
       parentRoute: typeof rootRoute
     }
   }
@@ -143,7 +157,8 @@ export interface FileRoutesByFullPath {
   '/user': typeof UserIndexRoute
   '/user/auth/login': typeof UserAuthLoginRoute
   '/user/auth/register': typeof UserAuthRegisterRoute
-  '/user/kakao/register': typeof UserKakaoRegisterRoute
+  '/user/kakao/bridge/login': typeof UserKakaoBridgeLoginRoute
+  '/user/kakao/bridge/register': typeof UserKakaoBridgeRegisterRoute
 }
 
 export interface FileRoutesByTo {
@@ -154,7 +169,8 @@ export interface FileRoutesByTo {
   '/user': typeof UserIndexRoute
   '/user/auth/login': typeof UserAuthLoginRoute
   '/user/auth/register': typeof UserAuthRegisterRoute
-  '/user/kakao/register': typeof UserKakaoRegisterRoute
+  '/user/kakao/bridge/login': typeof UserKakaoBridgeLoginRoute
+  '/user/kakao/bridge/register': typeof UserKakaoBridgeRegisterRoute
 }
 
 export interface FileRoutesById {
@@ -166,7 +182,8 @@ export interface FileRoutesById {
   '/user/': typeof UserIndexRoute
   '/user/auth/login': typeof UserAuthLoginRoute
   '/user/auth/register': typeof UserAuthRegisterRoute
-  '/user/kakao/register': typeof UserKakaoRegisterRoute
+  '/user/kakao/bridge/login': typeof UserKakaoBridgeLoginRoute
+  '/user/kakao/bridge/register': typeof UserKakaoBridgeRegisterRoute
 }
 
 export interface FileRouteTypes {
@@ -179,7 +196,8 @@ export interface FileRouteTypes {
     | '/user'
     | '/user/auth/login'
     | '/user/auth/register'
-    | '/user/kakao/register'
+    | '/user/kakao/bridge/login'
+    | '/user/kakao/bridge/register'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -189,7 +207,8 @@ export interface FileRouteTypes {
     | '/user'
     | '/user/auth/login'
     | '/user/auth/register'
-    | '/user/kakao/register'
+    | '/user/kakao/bridge/login'
+    | '/user/kakao/bridge/register'
   id:
     | '__root__'
     | '/'
@@ -199,7 +218,8 @@ export interface FileRouteTypes {
     | '/user/'
     | '/user/auth/login'
     | '/user/auth/register'
-    | '/user/kakao/register'
+    | '/user/kakao/bridge/login'
+    | '/user/kakao/bridge/register'
   fileRoutesById: FileRoutesById
 }
 
@@ -211,7 +231,8 @@ export interface RootRouteChildren {
   UserIndexRoute: typeof UserIndexRoute
   UserAuthLoginRoute: typeof UserAuthLoginRoute
   UserAuthRegisterRoute: typeof UserAuthRegisterRoute
-  UserKakaoRegisterRoute: typeof UserKakaoRegisterRoute
+  UserKakaoBridgeLoginRoute: typeof UserKakaoBridgeLoginRoute
+  UserKakaoBridgeRegisterRoute: typeof UserKakaoBridgeRegisterRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -222,7 +243,8 @@ const rootRouteChildren: RootRouteChildren = {
   UserIndexRoute: UserIndexRoute,
   UserAuthLoginRoute: UserAuthLoginRoute,
   UserAuthRegisterRoute: UserAuthRegisterRoute,
-  UserKakaoRegisterRoute: UserKakaoRegisterRoute,
+  UserKakaoBridgeLoginRoute: UserKakaoBridgeLoginRoute,
+  UserKakaoBridgeRegisterRoute: UserKakaoBridgeRegisterRoute,
 }
 
 export const routeTree = rootRoute
@@ -242,7 +264,8 @@ export const routeTree = rootRoute
         "/user/",
         "/user/auth/login",
         "/user/auth/register",
-        "/user/kakao/register"
+        "/user/kakao/bridge/login",
+        "/user/kakao/bridge/register"
       ]
     },
     "/": {
@@ -266,8 +289,11 @@ export const routeTree = rootRoute
     "/user/auth/register": {
       "filePath": "user/auth/register.tsx"
     },
-    "/user/kakao/register": {
-      "filePath": "user/kakao/register.tsx"
+    "/user/kakao/bridge/login": {
+      "filePath": "user/kakao/bridge/login.tsx"
+    },
+    "/user/kakao/bridge/register": {
+      "filePath": "user/kakao/bridge/register.tsx"
     }
   }
 }
