@@ -7,8 +7,6 @@ interface Props {
 }
 
 export const TodayQuestion = ({ title = '', subText = '' }: Props) => {
-	console.log(title, subText);
-
 	return (
 		<section {...stylex.props(styles.wrap, flex.column)}>
 			<span
@@ -48,13 +46,10 @@ const styles = stylex.create({
 	},
 	title: {
 		color: colors.gray90,
-		whiteSpace: 'pre-line',
 		paddingTop: 4,
 	},
 	text: {
 		color: colors.gray80,
-		wordBreak: 'break-all',
-		width: 250,
 	},
 	// butti
 });

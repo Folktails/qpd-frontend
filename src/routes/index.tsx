@@ -6,6 +6,15 @@ import { z } from 'zod';
 import { useCalendar } from '~/shared/hooks/useCalendar';
 import { Calendar } from '~/domain/home/calendar/calendar';
 import { isSameDay } from 'date-fns';
+import { format } from 'date-fns';
+import { useGetAnswerByMonth } from '~/domain/answer/hooks/useGetAnswerByMonth';
+import useModal from '~/shared/hooks/useModal';
+import { LoginBottomSheet } from '~/shared/components/ui/bottom-sheet/login/login-bottom-sheet';
+import { useEffect, useState } from 'react';
+import { useUserStore } from '~/domain/user/store';
+import { useGetAnswerCounts } from '~/domain/answer/hooks/useGetAnswerCounts';
+import { useGetAnswerByDate } from '~/domain/answer/hooks/useGetAnswerByDate';
+import { AnswerItem } from '~/domain/answer/components/item/answer-item';
 
 const searchSchema = z.object({
 	dateAt: z.string().optional(),
@@ -20,12 +29,51 @@ export const Route = createFileRoute('/')({
 
 function RouteComponent() {
 	const search = useSearch({ from: '/' });
+	const isLogin = useUserStore(s => s.isLogin);
 	const calendar = useCalendar<SearchSchema>(search);
+	const { data: answerCountData } = useGetAnswerByMonth(
+		format(calendar.startOfCurrentMonth, 'yyyy-MM-dd'),
+	);
+	const { data: answerTotalCount } = useGetAnswerCounts();
+	const { data: answerDataByDate } = useGetAnswerByDate(
+		format(calendar.currentSelectedDate, 'yyyy-MM-dd'),
+	);
+	const LoginPortal = useModal('login');
+	const [shouldRender, setShouldRender] = useState(false);
+
+	useEffect(() => {
+		const timer = requestAnimationFrame(() => {
+			setShouldRender(true);
+		});
+		return () => cancelAnimationFrame(timer);
+	}, [isLogin]);
+
+	useEffect(() => {
+		if (isLogin) {
+			LoginPortal.close();
+
+			return;
+		}
+		if (!isLogin && shouldRender) {
+			LoginPortal.open();
+			return;
+		}
+	}, [isLogin, shouldRender]);
+
+	const onClickOPenLoginBottomSheet = () => {
+		LoginPortal.open();
+	};
 
 	const renderCell = ({ date }: { date: Date }) => {
 		const isCurrentMonth = date.getMonth() + 1 === new Date().getMonth() + 1;
 
 		const isToday = isSameDay(date, new Date());
+
+		const formattedDate = format(date, 'yyyy-MM-dd');
+
+		const hasAnswer = Boolean(
+			answerCountData?.answerDateCountMap?.[formattedDate],
+		);
 
 		return (
 			<div {...stylex.props(styles.cellWrap)}>
@@ -41,7 +89,7 @@ function RouteComponent() {
 					{date.getDate()}
 				</div>
 
-				{!isToday && <div {...stylex.props(styles.dot)} />}
+				{hasAnswer && <div {...stylex.props(styles.dot)} />}
 			</div>
 		);
 	};
@@ -49,7 +97,9 @@ function RouteComponent() {
 	return (
 		<section {...stylex.props(styles.base)}>
 			<div {...stylex.props(styles.promotion, flex.column)}>
-				<div {...stylex.props(styles.promotionTitle, flex.vertical)}>
+				<div
+					{...stylex.props(styles.promotionTitle, flex.vertical)}
+					onClick={onClickOPenLoginBottomSheet}>
 					<img
 						src='/image/icon/mail.png'
 						alt='프로모션 아이콘'
@@ -61,8 +111,17 @@ function RouteComponent() {
 							styles.primaryBlack,
 							typo['Heading/lines/H3_20∙130_SemiBold_lines'],
 						)}>
-						지금까지 <span {...stylex.props(styles.primaryColor)}>총 13번</span>{' '}
-						답변했어요!
+						{isLogin ? (
+							<>
+								지금까지{' '}
+								<span {...stylex.props(styles.primaryColor)}>
+									총 {answerTotalCount?.answerCounts}번
+								</span>{' '}
+								답변했어요!
+							</>
+						) : (
+							<>로그인하고 매일 새로운 질문에 답변을 남겨보세요.</>
+						)}
 					</h3>
 				</div>
 
@@ -78,6 +137,29 @@ function RouteComponent() {
 			<div {...stylex.props(styles.calendar)}>
 				<Calendar {...calendar} renderCell={renderCell} />
 			</div>
+
+			<div {...stylex.props(styles.answerWrap, flex.column)}>
+				<div
+					{...stylex.props(styles.answerDateWrap, flex.between, flex.vertical)}>
+					<p
+						{...stylex.props(
+							typo['Body/Body1_16∙100_SemiBold'],
+							styles.primaryBlack,
+						)}>
+						{format(calendar.currentSelectedDate, 'yyyy.MM.dd')}일자 답변
+					</p>
+				</div>
+
+				{Boolean(answerDataByDate?.question?.answerList?.length) && (
+					<AnswerItem questionData={answerDataByDate?.question} />
+				)}
+			</div>
+
+			{shouldRender && !isLogin && (
+				<LoginPortal.Render type='bottomSheet' animationType='bottomSheet'>
+					<LoginBottomSheet />
+				</LoginPortal.Render>
+			)}
 		</section>
 	);
 }
@@ -149,4 +231,8 @@ const styles = stylex.create({
 		height: '4px',
 		backgroundColor: colors.main,
 	},
+	answerWrap: {
+		gap: 16,
+	},
+	answerDateWrap: {},
 });

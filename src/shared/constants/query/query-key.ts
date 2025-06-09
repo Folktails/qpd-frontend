@@ -8,4 +8,10 @@ export const QUERY_KEYS = {
 		today: ['question/today'],
 		todayInfo: ['question/todayInfo'],
 	},
+	answer: {
+		month: 'answer/month',
+		counts: 'answer/counts',
+		date: 'answer/date',
+	},
+	banner: 'banner',
 };

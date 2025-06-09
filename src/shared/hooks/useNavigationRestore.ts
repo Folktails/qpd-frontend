@@ -4,18 +4,17 @@ import {
 	type ParsedLocation,
 	type RegisteredRouter,
 } from '@tanstack/react-router';
+import { UserAPI } from '~/domain/user/api';
+import { useUserActions } from '~/domain/user/store';
 
 export const useNavigationRestore = () => {
 	const router = useRouter();
+	const { setUser } = useUserActions();
 
-	const restoreNavigation = (): boolean => {
+	const restoreNavigation = async () => {
 		const storedState = getStoredNavigationState();
 
 		if (storedState) {
-			console.log('🔄 저장된 위치로 복원:', storedState);
-
-			console.log(storedState);
-
 			// Type-safe 네비게이션
 			router.navigate({
 				to: storedState.pathname,
@@ -23,6 +22,9 @@ export const useNavigationRestore = () => {
 				hash: storedState.hash,
 				replace: true,
 			});
+
+			const { user } = await UserAPI.Auth.session();
+			setUser(user);
 
 			// 복원 후 상태 제거
 			clearNavigationState();
@@ -58,7 +60,6 @@ export const saveNavigationState = (location: ParsedLocation): void => {
 
 	try {
 		localStorage.setItem(NAVIGATION_STATE_KEY, JSON.stringify(navigationState));
-		console.log('📍 네비게이션 상태 저장:', navigationState);
 	} catch (error) {
 		console.warn('네비게이션 상태 저장 실패:', error);
 	}

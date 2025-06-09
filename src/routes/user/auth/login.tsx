@@ -23,8 +23,6 @@ function RouteComponent() {
 		if (!isSuccess || !data) return;
 
 		queryClient.setQueryData(QUERY_KEYS.auth.login, data);
-
-		console.log('✅ setQueryData executed:', data);
 	}, [isSuccess, data, queryClient]);
 
 	const onChangeInput: ChangeEventHandler<HTMLInputElement> = e =>

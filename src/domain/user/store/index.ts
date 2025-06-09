@@ -55,7 +55,6 @@ export const useUserStore = create<Store & { actions: Actions }>()(
 		...initialStore,
 		actions: {
 			setUser: user => {
-				console.log('Setting user:', user);
 				set(state => {
 					state.user = user;
 					state.isLogin = true;

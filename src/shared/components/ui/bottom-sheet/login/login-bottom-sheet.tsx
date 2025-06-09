@@ -5,15 +5,20 @@ import { Button } from '../../button/button';
 import { useKaKao } from '~/shared/hooks/useKaKao';
 import { saveNavigationState } from '~/shared/hooks/useNavigationRestore';
 import { useLocation } from '@tanstack/react-router';
+import { useUserStore } from '~/domain/user/store';
 
 export const LoginBottomSheet = () => {
 	const { kakaoLogin } = useKaKao();
+	const { isLogin } = useUserStore();
 	const location = useLocation();
 
 	const onClickKakaoLogin = () => {
 		saveNavigationState(location);
-		kakaoLogin();
+
+		setTimeout(() => kakaoLogin(), 100);
 	};
+
+	if (isLogin) return <></>;
 
 	return (
 		<section {...stylex.props(styles.wrap, flex.column)}>
@@ -58,7 +63,7 @@ const styles = stylex.create({
 		gap: 8,
 	},
 	title: {
-		width: '40%',
+		width: '80%',
 		color: colors.gray90,
 		whiteSpace: 'pre-line',
 		wordBreak: 'break-all',

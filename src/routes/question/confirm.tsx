@@ -99,7 +99,7 @@ function RouteComponent() {
 				search={{
 					dateAt: format(new Date(), 'yyyy-MM-dd'),
 				}}>
-				<Button variants='primary'>답변 완료하기</Button>
+				<Button variants='primary'>내 답변 보러가기</Button>
 			</Link>
 		</section>
 	);

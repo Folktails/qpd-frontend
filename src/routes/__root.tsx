@@ -20,7 +20,9 @@ export const Route = createRootRouteWithContext<{
 enableMapSet();
 
 function RootComponent() {
-	window.Kakao?.init(config.kakao);
+	if (!window.Kakao.isInitialized()) {
+		window.Kakao?.init(config.kakao);
+	}
 
 	return (
 		<Fragment>

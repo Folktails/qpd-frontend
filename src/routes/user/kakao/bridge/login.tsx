@@ -32,10 +32,9 @@ function RouteComponent() {
 			const restored = restoreNavigation();
 
 			if (!restored) {
-				// 복원할 위치가 없으면 기본 페이지로
 				navigate({ to: '/', replace: true });
 			}
 		})();
 	}, [success, error_msg, tempToken]);
-	return <div>Hello "/user/kakao/bridge/login"!</div>;
+	return <div></div>;
 }

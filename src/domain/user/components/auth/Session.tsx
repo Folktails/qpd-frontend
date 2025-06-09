@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { UserAPI } from '../../api';
-import { useUserActions } from '../../store';
+import { useUserActions, useUserStore } from '../../store';
 
 export const SessionCheck = () => {
 	const { setUser } = useUserActions();
+
 	useEffect(() => {
 		(async () => {
 			try {

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import * as stylex from '@stylexjs/stylex';
 import { UserAPI } from '~/domain/user/api';
 import { useUserActions } from '~/domain/user/store';
+import { useNavigationRestore } from '~/shared/hooks/useNavigationRestore';
 
 export const Route = createFileRoute('/user/kakao/bridge/register')({
 	component: RouteComponent,
@@ -40,15 +41,13 @@ function RouteComponent() {
 	const { success, tempToken, error_msg } = Route.useSearch();
 	const navigate = useNavigate();
 	const { setUser } = useUserActions();
+	const { restoreNavigation } = useNavigationRestore();
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const processKakaoAuth = async () => {
 			try {
-				console.log('🔄 카카오 인증 시작:', { success, tempToken });
-
 				if (!success) {
-					console.log('❌ 인증 실패');
 					setIsLoading(false);
 					return;
 				}
@@ -79,16 +78,13 @@ function RouteComponent() {
 					name: kakaoAccount.profile?.nickname || '',
 				};
 
-				console.log('👤 처리된 사용자 데이터:', userData);
-
 				setUser(userData);
-				console.log('✅ 사용자 데이터 저장 완료');
 
-				// 짧은 지연 후 네비게이션 (상태 업데이트 완료 대기)
-				setTimeout(() => {
-					console.log('🚀 페이지 이동 시도...');
-					navigate({ to: '/user/auth/register', replace: true });
-				}, 100);
+				const restored = restoreNavigation();
+
+				if (!restored) {
+					navigate({ to: '/', replace: true });
+				}
 			} catch (error) {
 				console.error('❌ 카카오 인증 처리 중 오류:', error);
 			}
